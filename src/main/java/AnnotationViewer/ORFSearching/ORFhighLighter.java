@@ -7,6 +7,7 @@ package AnnotationViewer.ORFSearching;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -67,7 +68,7 @@ public class ORFhighLighter {
                 }
 
             } catch (BadLocationException ex) {
-                System.out.println("Location exception");
+                  showError("Cannot find text to highlight");
             }
         }
     }
@@ -120,4 +121,12 @@ public class ORFhighLighter {
         popUp.show();
     }
 
+    
+    /**
+     * Deze methode laat een Error pop-up zien met daarin het meegegeven bericht.
+     * @param mssg Het bericht dat weergegeven moet worden in de pop-up.
+     */
+    private void showError(String mssg) {
+        JOptionPane.showMessageDialog(null, mssg, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 }
