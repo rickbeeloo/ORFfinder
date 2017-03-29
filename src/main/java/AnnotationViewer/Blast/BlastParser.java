@@ -28,6 +28,11 @@ public class BlastParser {
     double maxEValue;
     List<Result> results;
     
+    /**
+     * Constructor
+     * @param xmlInput Het pad van het XML BLAST bestand
+     * @param eValCutOff De E-value cut-off.
+     */
     public BlastParser(String xmlInput, double eValCutOff) {
        xmlInputFile = xmlInput;
        maxEValue = eValCutOff;
@@ -60,7 +65,6 @@ public class BlastParser {
         Result res = results.get(0);
         Iterator<Hit> iter = res.iterator();
         int counter = 0;
-        
         while (iter.hasNext() && counter < top) {
             Hit hit = iter.next();
             hits.add(hit);            

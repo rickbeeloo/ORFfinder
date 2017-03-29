@@ -10,6 +10,4 @@ package AnnotationViewer.Blast;
  * blastn, blastp, tblastn, tblastx.
  * @author projectgroep 12
  */
-public class ProgramException extends Exception {
-    
-}
+public class ProgramException extends Exception {}

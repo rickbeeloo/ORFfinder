@@ -44,6 +44,15 @@ public class Blast {
     private double maxEval;
     private int top;
     
+    /**
+     * Constructor
+     * @param seq De sequentie die geBLAST moet worden.
+     * @param tmpOutput Het bestandspad van het tijdelijk output bestand.
+     * @param program Het BLAST programma dat gebruikt moet worden. 
+     * @param db De database waartegen geBLAST moet worden
+     * @param eValCutOff De E-value cut-off die gebruikt moet worden.
+     * @param numberTopHits Het aantal hits dat geretouneerd moet worden. 
+     */
     public Blast(String seq, String tmpOutput, String program, String db, double eValCutOff, int numberTopHits) {
         sequence = seq;
         tempOutputLocation = tmpOutput;
@@ -122,7 +131,6 @@ public class Blast {
                 rid = null;
                 //stuur een BLAST request en sla het ID op.
                 rid = service.sendAlignmentRequest(sequence, props);
-                System.out.println(rid);
                 while (!service.isReady(rid)) {
                     Thread.sleep(5000);
                 }
@@ -146,6 +154,7 @@ public class Blast {
     }
     
     /**
+     * Aangepast voorbeeld uit de BioJava handleiding.
      * Deze methode haalt op basis van het door de NCBI server teruggegeven BLAST ID
      * het resultaat op en slaat dit op in een XML bestand.
      * @param rid BLAST job ID (geretouneerd door de NCBI server)
@@ -160,7 +169,6 @@ public class Blast {
         File f = new File(tempOutputLocation);
         writer = new FileWriter(f);
         String line;
-
         while ((line = reader.readLine()) != null) {
             writer.write(line + System.getProperty("line.separator"));
         }

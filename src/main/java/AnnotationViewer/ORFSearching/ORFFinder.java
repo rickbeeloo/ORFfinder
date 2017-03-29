@@ -20,8 +20,6 @@ import org.biojava.nbio.core.sequence.transcription.Frame;
 public class ORFFinder {
     
     //class variabele
-    private static final String STOP = "*";
-    //private static final Pattern MY_PATTERN = Pattern.compile("(\\*.+?\\*)"); //kan gebruikt worden voor het zoeken tussen stop codons
     private static final Pattern PATTERN = Pattern.compile("(M.+?\\*)");   //zoek tussen M en stop codons
    
     //instantie variabele

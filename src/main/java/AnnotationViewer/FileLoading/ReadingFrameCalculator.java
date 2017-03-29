@@ -24,7 +24,10 @@ public class ReadingFrameCalculator {
     private HashMap<Frame, RNASequence> RNAreadingFrames = new HashMap<>();
     private HashMap<Frame, ProteinSequence> protReadingFrames = new HashMap<>();
  
-
+    /**
+     * Contstructor
+     * @param inputDNAobj 
+     */
     public ReadingFrameCalculator(DNASequence inputDNAobj) {
         inputDNA = inputDNAobj;
     }

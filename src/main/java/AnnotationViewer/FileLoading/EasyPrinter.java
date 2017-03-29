@@ -17,8 +17,7 @@ import org.biojava.nbio.core.sequence.transcription.Frame;
 public class EasyPrinter {
     
     //class variabele
-    private static final String NEWLINE = "\n";
-    private static final String SPACE = " ";
+    private static final String NEWLINE = System.getProperty("line.separator");
     
     
     /**
@@ -53,7 +52,6 @@ public class EasyPrinter {
         HashMap map = (HashMap)obj;
         String txt = "";
         int reverseCount = 1; //nodig voor het bepalen van de strand
-        
             for (int i=1; i < 7; i++) {
                 Frame frame = ReadingFrameCalculator.numbToFrame(i);
                 Sequence seq = (Sequence) map.get(frame);

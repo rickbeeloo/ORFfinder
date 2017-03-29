@@ -6,6 +6,7 @@
 package AnnotationViewer.ORFSearching;
 
 
+import AnnotationViewer.FileLoading.ReadingFrameCalculator;
 import java.util.ArrayList;
 import org.biojava.nbio.core.exceptions.CompoundNotFoundException;
 import org.biojava.nbio.core.search.io.Hit;
@@ -39,8 +40,7 @@ public class ORFSequence {
         startPos = start;
         stopPos = stop;
         readingFrame = rf;
-        blastHits = new ArrayList<>();
-        
+        blastHits = new ArrayList<>(); 
     }
     
     /**
@@ -82,17 +82,11 @@ public class ORFSequence {
      * @return Retouneert de strand: antisense/sense waarin het ORF ligt.
      */
     public char getStrand() {
-        rfToStrand();
+        ReadingFrameCalculator.getStrand(readingFrame);
         return strand;
     }
 
-    /**
-     * Deze methode bepaald op basis van het reading Frame de strand (sense/anisense).
-     */
-    private void rfToStrand() {
-       String frame = getRF().toString();
-       strand = ((frame.contains("REVERSE"))? '-':'+'); //Als het Frame het woord reverse bevat is dit de antisense (-) strand.
-    }
+   
     
    
 }

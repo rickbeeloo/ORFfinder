@@ -10,6 +10,4 @@ package AnnotationViewer.Blast;
  * opdracht al in de rij staat. 
  * @author projectgroep 12
  */
-public class JobAlreadyInQueue extends Exception{
-    
-}
+public class JobAlreadyInQueue extends Exception{}

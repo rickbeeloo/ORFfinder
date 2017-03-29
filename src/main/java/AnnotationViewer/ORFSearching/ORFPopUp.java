@@ -26,7 +26,11 @@ public class ORFPopUp {
     private JFrame frame;
     private ORFSequence ORFobj;
     
-
+    /**
+     * Constructor
+     * @param inputORFobj ORFSequence object waarvan de data in het pop-up venster moet worden
+     * weergegeven.
+     */
     public ORFPopUp(ORFSequence inputORFobj) {
         ORFobj = inputORFobj;
     }
@@ -79,7 +83,7 @@ public class ORFPopUp {
             }
         ;
         };
-        table.getTableHeader().setUI(null); //laat de tabelheader niet zien.
+        table.getTableHeader().setUI(null); 
         return table;
     }
 

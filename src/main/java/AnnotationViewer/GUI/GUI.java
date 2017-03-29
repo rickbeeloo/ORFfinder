@@ -5,11 +5,8 @@
  */
 package AnnotationViewer.GUI;
 
-import AnnotationViewer.GUI.ActionHandler;
 import AnnotationViewer.Blast.BlastJobManager;
 import java.awt.Color;
-import java.io.IOException;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,7 +19,7 @@ public class GUI extends javax.swing.JFrame {
     private static final SequenceWrapper SEQWRAPPER = new SequenceWrapper();
     private static final BlastJobManager MANAGER = new BlastJobManager();
     private static final ActionHandler UPDATER = new ActionHandler();
-
+    
     /**
      * Creates new form GUI
      */
@@ -33,7 +30,9 @@ public class GUI extends javax.swing.JFrame {
         ActionHandler.setReferenceOutput(jTextArea1);
         BlastJobManager.setOutputTable(jTable1);
         ActionHandler.setBlastJobManager(MANAGER);
+        UPDATER.saveChoiceAction("Should the data be saved to the database?", "OPTION");
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

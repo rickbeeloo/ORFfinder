@@ -25,6 +25,10 @@ public class FileParser {
     private File bestand;
     private DNASequence DNAobj;
 
+    /**
+     * Constructor
+     * @param input Het FASTA bestand object.
+     */
     public FileParser(File input) {
         bestand = input;
     }
@@ -47,7 +51,6 @@ public class FileParser {
         catch (Exception ex) {
             showError("Please provide a valid FASTA file.");
         }
-
     }
 
     /**

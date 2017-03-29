@@ -9,6 +9,4 @@ package AnnotationViewer.DataStorage;
  * Deze exception wordt gegooid als de gebruiker een te lange sequentie inlaad. 
  * @author projectgroep12
  */
-public class LengthException extends Exception{
-    
-}
+public class LengthException extends Exception{}

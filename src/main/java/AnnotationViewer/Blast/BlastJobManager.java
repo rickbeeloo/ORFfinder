@@ -6,6 +6,7 @@
 package AnnotationViewer.Blast;
 
 import AnnotationViewer.DataStorage.Saver;
+import AnnotationViewer.GUI.ActionHandler;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,9 +21,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Deze class is verantwoordelijk voor het bijhouden van alles wat te maken heeft met BLAST request. Deze 
- * class laat de jobs zien aan de gebruiker, houdt bij of er BLAST jobs klaar zijn en als de BLAST job klaar is
- * wordt de data opgelsagen in de database.
+ * Deze class is verantwoordelijk voor het bijhouden van alles wat te maken
+ * heeft met BLAST request. Deze class laat de jobs zien aan de gebruiker, houdt
+ * bij of er BLAST jobs klaar zijn en als de BLAST job klaar is wordt de data
+ * opgelsagen in de database.
+ *
  * @author projectgroep 12
  */
 public class BlastJobManager {
@@ -35,25 +38,29 @@ public class BlastJobManager {
     private static int row;
     private static final String BLASTWEB = "https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Get&RID=";
 
+    /**
+     * Empty constructor
+     */
     public BlastJobManager() {}
 
     /**
      * Deze methode ontvangt een referentie JTable waarin alle BLAST jobs komen
      * te staan.
+     *
      * @param output Een JTable waarin alle BLAST jobs komen te staan.
      */
     public static void setOutputTable(JTable output) {
         outputTable = output;
-        setListener();
         finished = new ArrayList<>();
         jobs = new ArrayList<>();
         rowManager = new HashMap<>();
+        setListener();
     }
 
     /**
      * Deze methode voegt een listener toe aan de tabel. Als de BLAST job klaar
-     * is kan de gebruiker op deze link klikken om naar de resultaat pagina te gaan
-     * in de webbrowser.
+     * is kan de gebruiker op deze link klikken om naar de resultaat pagina te
+     * gaan in de webbrowser.
      */
     private static void setListener() {
         outputTable.addMouseListener(new MouseAdapter() {
@@ -61,12 +68,12 @@ public class BlastJobManager {
                 int row = outputTable.getSelectedRow();
                 int col = outputTable.getSelectedColumn();
                 try {
-                if (col == 1) { //only if the user clicks the result column
-                    String value = (String) outputTable.getValueAt(row, col);
-                    String url = value.split("\"")[1];
-                    openURL(url);
-                }}
-                catch (ArrayIndexOutOfBoundsException ex){
+                    if (col == 1) { //alleen als de gebruiker op de cel in de juiste kolom klikt
+                        String value = (String) outputTable.getValueAt(row, col);
+                        String url = value.split("\"")[1];
+                        openURL(url);
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
                     showError("This job isn't ready yet!");
                 }
             }
@@ -75,22 +82,26 @@ public class BlastJobManager {
 
     /**
      * Deze methode opent de resultaat pagina in de webbrowser.
+     *
      * @param url De URL die geopend moet worden in de webbrowser.
      */
     private static void openURL(String url) {
         try {
             Desktop.getDesktop().browse(new URL(url).toURI());
         } catch (URISyntaxException | IOException e) {
-           showError("kan de opgevragen URL niet openen!");
+            showError("Cannot open requested webpage!");
         }
     }
 
     /**
-     * Deze methode controleerd of de gebruiker de sequentie al heeft geblast 
-     * zo niet dan wordt de BLAST job toegevoegd aan de tabel.
+     * Deze methode controleerd of de gebruiker de sequentie al heeft geblast zo
+     * niet dan wordt de BLAST job toegevoegd aan de tabel.
+     *
      * @param BlastObj Het Blast object dat toegevoegd moet worden aan de tabel.
-     * @param ID Het ID dat gebruikt moet worden om de BLAST job te identificeren.
-     * @throws JobAlreadyInQueue  Gooit een exception als deze Job al in de tabel staat.
+     * @param ID Het ID dat gebruikt moet worden om de BLAST job te
+     * identificeren.
+     * @throws JobAlreadyInQueue Gooit een exception als deze Job al in de tabel
+     * staat.
      */
     public static void addJob(Blast BlastObj, String ID) throws JobAlreadyInQueue {
         BlastJob job = new BlastJob(BlastObj, ID);
@@ -105,8 +116,8 @@ public class BlastJobManager {
     }
 
     /**
-     * @return retouneert een Boolean die aangeeft of alle
-     * jobs in de wachtrij (op dit moment) klaar zijn.
+     * @return retouneert een Boolean die aangeeft of alle jobs in de wachtrij
+     * (op dit moment) klaar zijn.
      */
     public Boolean everyThingDone() {
         HashSet<Boolean> set = new HashSet<>(finished);
@@ -140,7 +151,8 @@ public class BlastJobManager {
 
     /**
      * Deze methode laat een Job in de tabel als deze nog niet klaar is.
-     * @param job 
+     *
+     * @param job
      */
     private static void showUnFinishedJob(BlastJob job) {
         DefaultTableModel model = (DefaultTableModel) outputTable.getModel();
@@ -148,28 +160,34 @@ public class BlastJobManager {
     }
 
     /**
-     * Deze methode laat een job zien in de tabel als deze klaar is en zet
-     * dan een hyperlink in de tabel waarmee de gebruiker naar de resultaat
-     * webpagina kan. 
-     * @param job 
+     * Deze methode laat een job zien in de tabel als deze klaar is en zet dan
+     * een hyperlink in de tabel waarmee de gebruiker naar de resultaat
+     * webpagina kan.
+     *
+     * @param job
      */
     private static void showFinishedJob(BlastJob job) {
         String ID = job.getID();
         updateJobStatus(createHyperLink(job.getBlastObj().getBlastJobID()), rowManager.get(ID));
-        Saver.save(job); //de BLAST resultaten worden opgeslagen in de database.
+        if (ActionHandler.getSaveStatus()) {
+            Saver.save(job); //de BLAST resultaten worden opgeslagen in de database. 
+        }
+
     }
 
     /**
      * Deze methode update een rij in de tabel met de gegeven status
-     * @param status Een String object met daarin de status van de job 
+     *
+     * @param status Een String object met daarin de status van de job
      * @param row De row waarin de status moet worden weergegeven.
-     */    
+     */
     private static void updateJobStatus(String status, int row) {
         outputTable.setValueAt(status, row, 1);
     }
 
     /**
-     * Deze methode maakt een hyperlink aan 
+     * Deze methode maakt een hyperlink aan
+     *
      * @param ID Het BLAST ID die geretouneerd is door de NCBI server.
      * @return Een String object die de hyerplink bevat.
      */
@@ -180,7 +198,9 @@ public class BlastJobManager {
     }
 
     /**
-     * Deze methode laat een Error pop-up zien met daarin het meegegeven bericht.
+     * Deze methode laat een Error pop-up zien met daarin het meegegeven
+     * bericht.
+     *
      * @param mssg Het bericht dat weergegeven moet worden in de pop-up.
      */
     private static void showError(String mssg) {

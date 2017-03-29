@@ -50,8 +50,7 @@ public class ORFhighLighter {
     public void highlight() {
         buildHighlighter();
         removePreviousListener(); //Als de gebruiker een nieuw bestand inlaad moet de vorige listener verwijderd worden.
-        Listener();
-        highLighter.removeAllHighlights();
+        startListener();
         for (ORFSequence target : targets) {
             String targetSeq = target.getAAseq();
             String txt = textArea.getText();
@@ -66,7 +65,6 @@ public class ORFhighLighter {
                     }
                     p0 = txt.indexOf(targetSeq, p0 + 1);
                 }
-
             } catch (BadLocationException ex) {
                   showError("Cannot find text to highlight");
             }
@@ -77,6 +75,7 @@ public class ORFhighLighter {
      * Deze methode verwijderd de vorige caretListener als een gebruiker een andere file inlaadt.
      */
     private void removePreviousListener() {
+        highLighter.removeAllHighlights();
         for (CaretListener listener : textArea.getCaretListeners()) {
             textArea.removeCaretListener(listener);
         }
@@ -87,7 +86,7 @@ public class ORFhighLighter {
      * gemarkeerd zijn en roept de action methode aan als de gebruiker op een
      * markering klikt.
      */
-    private void Listener() {
+    private void startListener() {
         textArea.addCaretListener(new CaretListener() {
             public void caretUpdate(CaretEvent e) {
                 try {
