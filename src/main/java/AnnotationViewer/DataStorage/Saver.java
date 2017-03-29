@@ -42,10 +42,6 @@ public class Saver {
     private static int lastSeqID;
     private static HashMap<String, Integer> ORFIDs;
 
-    /**
-     * Empty constructor
-     */
-    public Saver() {}
     
     /**
      * Deze methode opent de verbinding met de database
