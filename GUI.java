@@ -27,7 +27,7 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         //zorgen dat alle GUI afhankelijke classes voldoende data hebben om te functioneren
         ActionHandler.setReferenceWrapper(SEQWRAPPER);
-        ActionHandler.setReferenceOutput(jTextArea1);
+        ActionHandler.setReferenceOutput(SequenceArea);
         BlastJobManager.setOutputTable(jTable1);
         ActionHandler.setBlastJobManager(MANAGER);
         UPDATER.saveChoiceAction("Should the data be saved to the database?", "OPTION");
@@ -45,7 +45,7 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        SequenceArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -61,18 +61,18 @@ public class GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AnnotationViewer");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        SequenceArea.setColumns(20);
+        SequenceArea.setRows(5);
+        jScrollPane1.setViewportView(SequenceArea);
         //make everything transparent except for the text
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
         jScrollPane1.setViewportBorder(null);
-        jTextArea1.setBackground(new Color(0, 0, 0, 0));
-        jTextArea1.setBorder(null);
-        jTextArea1.getAccessibleContext().setAccessibleName("readingFrameTextArea");
-        jTextArea1.getAccessibleContext().setAccessibleDescription("");
+        SequenceArea.setBackground(new Color(0, 0, 0, 0));
+        SequenceArea.setBorder(null);
+        SequenceArea.getAccessibleContext().setAccessibleName("readingFrameTextArea");
+        SequenceArea.getAccessibleContext().setAccessibleDescription("");
 
         jLabel1.setText("<html><b>Reading frame sequences:</b></html>");
 
@@ -230,6 +230,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea SequenceArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -242,6 +243,5 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
