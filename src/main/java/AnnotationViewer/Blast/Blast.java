@@ -5,33 +5,28 @@
  */
 package AnnotationViewer.Blast;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import org.biojava.nbio.core.search.io.Hit;
-import org.biojava.nbio.core.sequence.io.util.IOUtils;
 import org.biojava.nbio.ws.alignment.qblast.BlastProgramEnum;
 import org.biojava.nbio.ws.alignment.qblast.NCBIQBlastAlignmentProperties;
 import org.biojava.nbio.ws.alignment.qblast.NCBIQBlastOutputProperties;
 import org.biojava.nbio.ws.alignment.qblast.NCBIQBlastService;
 
-
 /**
- * Deze class is verantwoordelijk voor het uitvoeren van BLAST searches tegen
- * de NCBI database. De code uit de BioJava handleiding is gebruikt als basis 
- * voor deze class.
+ * Deze class is verantwoordelijk voor het uitvoeren van BLAST searches tegen de
+ * NCBI database. De code uit de BioJava handleiding is gebruikt als basis voor
+ * deze class.
+ *
  * @author projectgroep 12
  */
 public class Blast {
-    
+
     //instantie variabele
     private String sequence;
-    private String tempOutputLocation;
     private String blastProgram;
     private String blastDatabase;
     private NCBIQBlastService service;
@@ -39,23 +34,23 @@ public class Blast {
     private ArrayList<Hit> blastResults;
     private NCBIQBlastOutputProperties outputProps;
     private BlastParser parser;
+    private File XMLFile;
     private Thread t;
     private String rid;
     private double maxEval;
     private int top;
-    
+
     /**
      * Constructor
+     *
      * @param seq De sequentie die geBLAST moet worden.
-     * @param tmpOutput Het bestandspad van het tijdelijk output bestand.
-     * @param program Het BLAST programma dat gebruikt moet worden. 
+     * @param program Het BLAST programma dat gebruikt moet worden.
      * @param db De database waartegen geBLAST moet worden
      * @param eValCutOff De E-value cut-off die gebruikt moet worden.
-     * @param numberTopHits Het aantal hits dat geretouneerd moet worden. 
+     * @param numberTopHits Het aantal hits dat geretouneerd moet worden.
      */
-    public Blast(String seq, String tmpOutput, String program, String db, double eValCutOff, int numberTopHits) {
+    public Blast(String seq, String program, String db, double eValCutOff, int numberTopHits) {
         sequence = seq;
-        tempOutputLocation = tmpOutput;
         blastProgram = program;
         blastDatabase = db;
         maxEval = eValCutOff;
@@ -64,8 +59,9 @@ public class Blast {
     }
 
     /**
-     * Deze methode zorgt voor het opstellen van de alignment opties (database en BLAST programma) en 
-     * het instellen van het maximaal aantal alginements dat gemaakt moet worden.
+     * Deze methode zorgt voor het opstellen van de alignment opties (database
+     * en BLAST programma) en het instellen van het maximaal aantal alginements
+     * dat gemaakt moet worden.
      */
     private void setServices() {
         try {
@@ -78,8 +74,10 @@ public class Blast {
     }
 
     /**
-     * Deze methode is verantwoordelijk voor het instellen van de alignment opties.
-     * @throws ProgramException 
+     * Deze methode is verantwoordelijk voor het instellen van de alignment
+     * opties.
+     *
+     * @throws ProgramException
      */
     private void setAlignmentOptions() throws ProgramException {
         props = new NCBIQBlastAlignmentProperties();
@@ -94,14 +92,16 @@ public class Blast {
         outputProps = new NCBIQBlastOutputProperties();
         outputProps.setAlignmentNumber(100); //this is used as default
     }
-    
+
     /**
-     * Deze methode zet een BLAST programma als String om naar een BlastProgram object
-     * die gebruikt kan worden door de biojava BLAST service. 
+     * Deze methode zet een BLAST programma als String om naar een BlastProgram
+     * object die gebruikt kan worden door de biojava BLAST service.
+     *
      * @param program Een String object dat het gewenste BLAST programma bevat.
-     * @return Geeft een BlastProgramEnum object terug corresponderend met de ingegeven String.
-     * @throws ProgramException Gooit een exception als het String object niet kan worden omgezet
-     * naar een BlastProgramEnum object.
+     * @return Geeft een BlastProgramEnum object terug corresponderend met de
+     * ingegeven String.
+     * @throws ProgramException Gooit een exception als het String object niet
+     * kan worden omgezet naar een BlastProgramEnum object.
      */
     private BlastProgramEnum getBlastProgram(String program) throws ProgramException {
         switch (program.toLowerCase()) {
@@ -121,9 +121,11 @@ public class Blast {
     /**
      * Deze mmethode start een nieuwe Thread waarin een request wordt gestuurd
      * naar de NCBI server. Deze thread blijft "levend" zolang de BLAST server
-     * nog geen resultaat heeft geretouneerd.      * 
-     * @throws Exception Gooit een Exception als er geen verbinding gemaakt kan worden
-     * met de NCBI server.
+     * nog geen resultaat heeft geretouneerd.
+     *
+     *
+     * @throws Exception Gooit een Exception als er geen verbinding gemaakt kan
+     * worden met de NCBI server.
      */
     public void sendRequest() throws Exception {
         t = new Thread(() -> {
@@ -131,10 +133,11 @@ public class Blast {
                 rid = null;
                 //stuur een BLAST request en sla het ID op.
                 rid = service.sendAlignmentRequest(sequence, props);
+                System.out.println(rid);
                 while (!service.isReady(rid)) {
                     Thread.sleep(5000);
                 }
-                readResults(rid);           
+                readResults(rid);
             } catch (IOException ex) {
                 showError("Cannot connect to NCBI please check your internet connection");
             } catch (Exception ex) {
@@ -143,72 +146,47 @@ public class Blast {
         });
         t.start();
     }
-    
+
     /**
-     * Deze methode controleerd of de request Thread de data van de BLAST
-     * server heeft ontvangen of niet.
-     * @return 
+     * Deze methode controleerd of de request Thread de data van de BLAST server
+     * heeft ontvangen of niet.
+     *
+     * @return Retouneert of de thread nog actief is als Boolean
      */
     public boolean checkStatus() {
         return (t.isAlive());
     }
-    
+
     /**
-     * Aangepast voorbeeld uit de BioJava handleiding.
-     * Deze methode haalt op basis van het door de NCBI server teruggegeven BLAST ID
-     * het resultaat op en slaat dit op in een XML bestand.
+     * Aangepast voorbeeld uit de BioJava handleiding. Deze methode haalt op
+     * basis van het door de NCBI server teruggegeven BLAST ID het resultaat op
+     * en slaat dit op in een XML bestand.
+     *
      * @param rid BLAST job ID (geretouneerd door de NCBI server)
-     * @throws IOException Gooit een exception als er niet naar het bestand kan worden geschreven.
+     * @throws IOException Gooit een exception als er niet naar het bestand kan
+     * worden geschreven.
      * @throws Exception Gooi een exception als er een onbekende fout optreed.
      */
     private void readResults(String rid) throws IOException, Exception {
-        FileWriter writer = null;
-        BufferedReader reader = null;
-        InputStream in = service.getAlignmentResults(rid, outputProps);
-        reader = new BufferedReader(new InputStreamReader(in));
-        File f = new File(tempOutputLocation);
-        writer = new FileWriter(f);
-        String line;
-        while ((line = reader.readLine()) != null) {
-            writer.write(line + System.getProperty("line.separator"));
-        }
-        close(writer, reader, rid);
+        InputStream inStream = service.getAlignmentResults(rid, outputProps);
+        XMLFile = new TempFile(inStream).getFile();  
     }
     
     /**
-     * Deze methode creërd een nieuw File object.
-     * @return File object.
-     */
-    public File getOutputXML() {
-        return new File(tempOutputLocation);
-    } 
-
-    /**
-     * Deze methode sluit de FileWriter, BufferedReader en verwijderd het resultaat van
-     * de BLAST server (aardig zijn tegen de NCBI server).
-     * @param writer een FileWriter 
-     * @param reader een BufferedReader
-     * @param rid een BLAST job ID geretouneerd door de NCBI server.
-     */
-    private void close(FileWriter writer, BufferedReader reader, String rid) {
-        IOUtils.close(writer);
-        IOUtils.close(reader);
-        service.sendDeleteRequest(rid);
-    }
-
-    /**
-     * Deze methode zorgt voor het instantiëren van de BLAST parser en het aanroepen
-     * van de parse methoden in deze parser.
+     * Deze methode zorgt voor het instantiëren van de BLAST parser en het
+     * aanroepen van de parse methoden in deze parser.
      */
     public void parse() {
-        parser = new BlastParser(tempOutputLocation, maxEval);
+        parser = new BlastParser(XMLFile,maxEval);
         parser.parse();
+        XMLFile.delete(); 
     }
 
     /**
-     * Deze methode retouneert de gevonden top x BLAST hits. Waarbij
-     * x een meegegeven getal is bij instantiatie van deze class.
-     * @return 
+     * Deze methode retouneert de gevonden top x BLAST hits. Waarbij x een
+     * meegegeven getal is bij instantiatie van deze class.
+     *
+     * @return
      */
     public ArrayList<Hit> getHits() {
         return parser.getTopHits(top);
@@ -216,14 +194,17 @@ public class Blast {
 
     /**
      * Deze methode retouneert het BLAST job ID geretouneert door de NCBI server
+     *
      * @return BLAST job ID geretouneert door de NCBI server.
      */
     public String getBlastJobID() {
         return rid;
     }
-    
+
     /**
-     * Deze methode laat een Error pop-up zien met daarin het meegegeven bericht.
+     * Deze methode laat een Error pop-up zien met daarin het meegegeven
+     * bericht.
+     *
      * @param mssg Het bericht dat weergegeven moet worden in de pop-up.
      */
     private void showError(String mssg) {

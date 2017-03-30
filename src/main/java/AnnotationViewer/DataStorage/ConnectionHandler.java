@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 
 public class ConnectionHandler {
 
+    //instantie variabele
     private static String database_url;
     private static String username;
     private static String password;

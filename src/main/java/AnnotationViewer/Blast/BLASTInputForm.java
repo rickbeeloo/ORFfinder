@@ -6,13 +6,11 @@
 package AnnotationViewer.Blast;
 
 import AnnotationViewer.GUI.ActionHandler;
-import AnnotationViewer.FileLoading.FileHandler;
 import AnnotationViewer.ORFSearching.ORFSequence;
 import AnnotationViewer.ORFSearching.SpringUtilities;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -37,8 +35,10 @@ public class BLASTInputForm {
     private ORFSequence ORFobj;
 
     /**
-     * Constructor 
-     * @param inputORFObj ORFobject waarin de sequentie zit die geBLAST moet worden.
+     * Constructor
+     *
+     * @param inputORFObj ORFobject waarin de sequentie zit die geBLAST moet
+     * worden.
      */
     public BLASTInputForm(ORFSequence inputORFObj) {
         ORFobj = inputORFObj;
@@ -72,46 +72,51 @@ public class BLASTInputForm {
     private void addParameterChoices() {
         JPanel panel = new JPanel(new SpringLayout());
         ArrayList<JLabel> labels = createLabels(new String[]{"Program", "Database", "E-value cut-off", "Sequence"});
-        ArrayList<JComboBox> comboBoxes = createComboFields(new String[][]{{"blastp", "tblastn"},{"nr", "swissprot"}});
-        ArrayList<JTextField> textFields = createInputFields(new String[] {"",ORFobj.getAAseq()} , 10);
-       
-        ArrayList<JComponent> inputFields = mergeBoxesAndFields(comboBoxes,textFields);
+        ArrayList<JComboBox> comboBoxes = createComboFields(new String[][]{{"blastp", "tblastn"}, {"nr", "swissprot"}});
+        ArrayList<JTextField> textFields = createInputFields(new String[]{"", ORFobj.getAAseq()}, 10);
+
+        ArrayList<JComponent> inputFields = mergeBoxesAndFields(comboBoxes, textFields);
         addPairs(panel, labels, inputFields);
-        SpringUtilities.makeCompactGrid(panel,4, 2,6, 6, 6, 6); 
+        SpringUtilities.makeCompactGrid(panel, 4, 2, 6, 6, 6, 6);
         frame.add(panel);
-        addBlastAction(panel, comboBoxes.get(0),comboBoxes.get(1), textFields.get(0));  
+        addBlastAction(panel, comboBoxes.get(0), comboBoxes.get(1), textFields.get(0));
     }
 
     /**
      * Deze methode ontvangt een 2D array met daarin de data voor de ComboBoxes
-     * @param text een 2D array met daarin de text die opgenomen moet worden als keuze bij iedere JComboBox
+     *
+     * @param text een 2D array met daarin de text die opgenomen moet worden als
+     * keuze bij iedere JComboBox
      * @return een ArrayList met de JComboBoxes met de gewenste text.
-     */    
+     */
     private ArrayList<JComboBox> createComboFields(String[][] text) {
         ArrayList<JComboBox> comboBoxes = new ArrayList<>();
-        for (int i=0; i < text.length; i++) {
+        for (int i = 0; i < text.length; i++) {
             comboBoxes.add(createComboBox(text[i]));
         }
-    return comboBoxes;
+        return comboBoxes;
     }
-    
-   /**
-    * Deze methode ontvangt een String array met daarin de text voor ieder textField en maakt hiermee
-    * textFields aan.
-    * @param txt De text die opgenomen moet worden per JTextField.
-    * @param size De grootte van het jTextField.
-    * @return Een ArrayList met daarin de JTextFields.
-    */
+
+    /**
+     * Deze methode ontvangt een String array met daarin de text voor ieder
+     * textField en maakt hiermee textFields aan.
+     *
+     * @param txt De text die opgenomen moet worden per JTextField.
+     * @param size De grootte van het jTextField.
+     * @return Een ArrayList met daarin de JTextFields.
+     */
     private ArrayList<JTextField> createInputFields(String[] txt, int size) {
         ArrayList<JTextField> textFields = new ArrayList<>();
-        for (int i=0; i < txt.length; i++) {
-            textFields.add(new JTextField(txt[i],size));
+        for (int i = 0; i < txt.length; i++) {
+            textFields.add(new JTextField(txt[i], size));
         }
         return textFields;
     }
-    
+
     /**
-     * Deze methode maakt een nieuwe ArrayList met daarin de JComboBoxen en JTextFields.
+     * Deze methode maakt een nieuwe ArrayList met daarin de JComboBoxen en
+     * JTextFields.
+     *
      * @param boxes Een ArrayList met daarin JComboBox objecten.
      * @param fields Een ArrayList met daarin JTextFields.
      * @return Een ArrayList waarin zowel de boxes als fields zitten.
@@ -122,7 +127,7 @@ public class BLASTInputForm {
         merged.addAll(fields);
         return merged;
     }
-    
+
     /**
      * Deze methode creeert de labels die aangeven welke keuzes de gebruiker kan
      * maken.
@@ -155,7 +160,7 @@ public class BLASTInputForm {
             label.setLabelFor(inputField);
             panel.add(inputField);
         }
-    } 
+    }
 
     /**
      * Deze methode zorgt voor het maken van een "RUN BLAST" button en koppelt
@@ -180,20 +185,14 @@ public class BLASTInputForm {
                     String Eval = EvalField.getText();
                     if (Eval.length() > 0 && isDouble(Eval)) {
                         ActionHandler handler = new ActionHandler();
-                        handler.PerfromBlastAction(
-                                ORFobj,
-                                FileHandler.saveFile("output_" + ORFobj.getID() + ".txt").getAbsolutePath(),//open temp output
-                                (String) programField.getSelectedItem(),
-                                (String) dbField.getSelectedItem(),
-                                Double.parseDouble(EvalField.getText()),
-                                10 //default top 10 hits due to performance                
+                        handler.PerfromBlastAction(ORFobj,(String) programField.getSelectedItem(),
+                                (String) dbField.getSelectedItem(), Double.parseDouble(EvalField.getText()),
+                                10 //standaard top 10 vanwege opslag en snelheid                
                         );
                         frame.dispose();
                     } else {
                         showError("Please provide a valid E-value cut-off.");
                     }
-                } catch (IOException ex) {
-                    showError("Please provide an accessible output file.");
                 } catch (Exception ex) {
                     showError("An unexpected error occured.");
                 }
@@ -239,6 +238,5 @@ public class BLASTInputForm {
     private void showError(String mssg) {
         JOptionPane.showMessageDialog(null, mssg, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
-
 
 }

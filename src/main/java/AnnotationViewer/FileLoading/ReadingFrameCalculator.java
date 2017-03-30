@@ -26,7 +26,7 @@ public class ReadingFrameCalculator {
  
     /**
      * Contstructor
-     * @param inputDNAobj 
+     * @param inputDNAobj Een DNASequence object met daarin een DNA sequentie. 
      */
     public ReadingFrameCalculator(DNASequence inputDNAobj) {
         inputDNA = inputDNAobj;
@@ -87,11 +87,11 @@ public class ReadingFrameCalculator {
             case 3:
                 return Frame.THREE;
             case 4:
-                return Frame.REVERSED_ONE;
+                return Frame.REVERSED_THREE;
             case 5:
                 return Frame.REVERSED_TWO;
             case 6:
-                return Frame.REVERSED_THREE;
+                return Frame.REVERSED_ONE;
             default:
                 return Frame.getDefaultFrame(); //Als geen geldig nummer wordt meegegeven geef dan het standaard Frame terug
             }

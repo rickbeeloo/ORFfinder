@@ -20,13 +20,14 @@ import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
  * @author RICK
  */
 public class FileParser {
-    
+
     //instantie variabele
     private File bestand;
     private DNASequence DNAobj;
 
     /**
      * Constructor
+     *
      * @param input Het FASTA bestand object.
      */
     public FileParser(File input) {
@@ -36,7 +37,9 @@ public class FileParser {
     /**
      * Deze methode parsed de informatie in het FASTA bestand en slaat deze data
      * op in een DNASequence object.
-     * @throws IOException Gooit een exception als het FASTA bestand niet gelezen kan worden.
+     *
+     * @throws IOException Gooit een exception als het FASTA bestand niet
+     * gelezen kan worden.
      */
     public void parse() throws IOException {
         LinkedHashMap<String, DNASequence> data;
@@ -47,8 +50,7 @@ public class FileParser {
             showError("No FASTA DNA sequences present in the file.");
         } catch (FileNotFoundException ex) {
             showError("Cannot find the requested file.");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             showError("Please provide a valid FASTA file.");
         }
     }
@@ -62,16 +64,19 @@ public class FileParser {
 
     /**
      * Deze methode retouneert de eerste entry in het FASTA bestand.
-     * @param data een LinkedHashMap met daarin als key de sequentie header en als value een DNASequence
-     * header object.
+     *
+     * @param data een LinkedHashMap met daarin als key de sequentie header en
+     * als value een DNASequence header object.
      * @return De eerste entry uit de LinkedHashMap.
      */
     private Entry<String, DNASequence> getFirstEntry(LinkedHashMap<String, DNASequence> data) {
         return data.entrySet().iterator().next();
     }
-    
+
     /**
-     * Deze methode laat een Error pop-up zien met daarin het meegegeven bericht.
+     * Deze methode laat een Error pop-up zien met daarin het meegegeven
+     * bericht.
+     *
      * @param mssg Het bericht dat weergegeven moet worden in de pop-up.
      */
     private static void showError(String mssg) {

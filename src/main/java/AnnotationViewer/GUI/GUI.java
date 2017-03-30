@@ -176,7 +176,6 @@ public class GUI extends javax.swing.JFrame {
      */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         UPDATER.OpenAction();
-        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

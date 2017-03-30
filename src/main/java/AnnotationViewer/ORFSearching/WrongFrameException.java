@@ -8,6 +8,6 @@ package AnnotationViewer.ORFSearching;
 
 /**
  * Deze class wordt gegooigt als een verkeerd Frame nummer is ingegeven.
- * @author RICK
+ * @author projectgroep 12
  */
 public class WrongFrameException extends Exception{}

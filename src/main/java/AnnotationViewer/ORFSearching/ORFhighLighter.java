@@ -23,7 +23,7 @@ public class ORFhighLighter {
 
     //class variabele
     public static final Color markColor = Color.decode("#F59FE9"); //lichtblauwe kleur
-    
+
     //instantie variabele
     private ArrayList<ORFSequence> targets;
     private JTextArea textArea;
@@ -55,7 +55,7 @@ public class ORFhighLighter {
             String targetSeq = target.getAAseq();
             String txt = textArea.getText();
             try {
-                int p0 = txt.indexOf(targetSeq);
+                int p0 = txt.indexOf(targetSeq); //start index van ORF
                 while (p0 >= 0) {
                     int p1 = p0 + targetSeq.length();
                     highLighter.addHighlight(p0, p1, painter);
@@ -66,13 +66,14 @@ public class ORFhighLighter {
                     p0 = txt.indexOf(targetSeq, p0 + 1);
                 }
             } catch (BadLocationException ex) {
-                  showError("Cannot find text to highlight");
+                showError("Cannot find text to highlight");
             }
         }
     }
 
     /**
-     * Deze methode verwijderd de vorige caretListener als een gebruiker een andere file inlaadt.
+     * Deze methode verwijderd de vorige caretListener als een gebruiker een
+     * andere file inlaadt.
      */
     private void removePreviousListener() {
         highLighter.removeAllHighlights();
@@ -113,6 +114,7 @@ public class ORFhighLighter {
     /**
      * Deze methode wordt aangeroepen als de gebruiker op een markering klikt en
      * laat de kenmerken van deze markering in een pop-up zien.
+     *
      * @param loc De locatie van de aangeklikte markering.
      */
     private void action(int loc) {
@@ -120,9 +122,10 @@ public class ORFhighLighter {
         popUp.show();
     }
 
-    
     /**
-     * Deze methode laat een Error pop-up zien met daarin het meegegeven bericht.
+     * Deze methode laat een Error pop-up zien met daarin het meegegeven
+     * bericht.
+     *
      * @param mssg Het bericht dat weergegeven moet worden in de pop-up.
      */
     private void showError(String mssg) {

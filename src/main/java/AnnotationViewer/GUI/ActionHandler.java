@@ -41,7 +41,6 @@ public class ActionHandler {
     private static BlastJobManager jobManager;
     private static Boolean saveInDatabase = true;
 
- 
     /**
      * Deze methode zet de sequentie wrapper op zodat de DNA sequenties, ORF's
      * en BLAST jobs in een centrale class kunnen worden opgeslagen.
@@ -85,12 +84,13 @@ public class ActionHandler {
     }
 
     /**
-     * Deze methode wordt aangeroepen om een keuze te geven aan de gebruiker om de data wel of niet op
-     * te slaan in de database.
+     * Deze methode wordt aangeroepen om een keuze te geven aan de gebruiker om
+     * de data wel of niet op te slaan in de database.
+     *
      * @param txt de text die in het dailoog venster moet komen te staan.
      * @param title de titel van het dialoog venster.
      */
-   public void saveChoiceAction(String txt, String title) {
+    public void saveChoiceAction(String txt, String title) {
         int dialogResult = JOptionPane.showConfirmDialog(null, txt, title, JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.NO_OPTION) {
             saveInDatabase = false;
@@ -164,8 +164,6 @@ public class ActionHandler {
      *
      * @param ORFobj Een ORFSequence object waarvan de sequentie geblast moet
      * worden.
-     * @param tmpOutput Een output bestand waarna de BLAST resultaten geschreven
-     * kunnen worden (XML).
      * @param program Het gewenste BLAST programma (blastn, blastp, tblastn,
      * tblastx).
      * @param db De gewenste database waartegen een BLAST search uitgevoerd moet
@@ -174,9 +172,9 @@ public class ActionHandler {
      * @param numberTopHits Het maximaal aantal hits die getoond moeten worden
      * aan de gebruiker.
      */
-    public void PerfromBlastAction(ORFSequence ORFobj, String tmpOutput, String program, String db, double eValCutOff, int numberTopHits) {
+    public void PerfromBlastAction(ORFSequence ORFobj, String program, String db, double eValCutOff, int numberTopHits) {
         try {
-            Blast blast = new Blast(ORFobj.getAAseq(), tmpOutput, program, db, eValCutOff, numberTopHits);
+            Blast blast = new Blast(ORFobj.getAAseq(), program, db, eValCutOff, numberTopHits);
             blast.sendRequest();
             BlastJobManager.addJob(blast, ORFobj.getID());
         } catch (JobAlreadyInQueue ex) {
@@ -242,7 +240,7 @@ public class ActionHandler {
                 minInputLen = Integer.parseInt(inputValue);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please provide a number", "ERROR", JOptionPane.ERROR_MESSAGE);
-                showNumbInputDialog(txt,title);
+                showNumbInputDialog(txt, title);
             }
         }
         return minInputLen;
@@ -260,6 +258,7 @@ public class ActionHandler {
         for (int i = 1; i < proteinFrames.size() + 1; i++) {
             try {
                 Frame frame = ReadingFrameCalculator.numbToFrame(i);
+                System.out.println("frampje: " + frame);
                 ProteinSequence protSeq = proteinFrames.get(frame);
                 ORFFinder finder = new ORFFinder(protSeq.getSequenceAsString(), minORFLen, frame);
                 finder.search();

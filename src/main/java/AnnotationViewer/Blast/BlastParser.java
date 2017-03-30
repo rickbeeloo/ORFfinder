@@ -24,17 +24,17 @@ import org.biojava.nbio.core.search.io.blast.BlastXMLParser;
 public class BlastParser {
     
     //instantie variabele
-    String xmlInputFile;
+    File xmlInputFile;
     double maxEValue;
     List<Result> results;
     
     /**
      * Constructor
-     * @param xmlInput Het pad van het XML BLAST bestand
+     * @param FilexmlInput Het XML bestand dat ingeladen moet worden
      * @param eValCutOff De E-value cut-off.
      */
-    public BlastParser(String xmlInput, double eValCutOff) {
-       xmlInputFile = xmlInput;
+    public BlastParser(File FilexmlInput, double eValCutOff) {
+       xmlInputFile = FilexmlInput;
        maxEValue = eValCutOff;
     }
     
@@ -45,7 +45,7 @@ public class BlastParser {
     public void parse() {
         try {
             BlastXMLParser parser = new BlastXMLParser();
-            parser.setFile(new File(xmlInputFile));
+            parser.setFile(xmlInputFile);
             results = parser.createObjects(maxEValue);
         } catch (IOException ex) {
             showError("Cannot open XML file");

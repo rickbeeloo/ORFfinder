@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.biojava.nbio.core.search.io.Hit;
 import org.biojava.nbio.core.search.io.Hsp;
@@ -42,6 +44,7 @@ public class Saver {
     private static int lastSeqID;
     private static HashMap<String, Integer> ORFIDs;
 
+   
     
     /**
      * Deze methode opent de verbinding met de database
@@ -69,7 +72,7 @@ public class Saver {
         blastObj.parse();
         for (Hit hit : blastObj.getHits()) {
             try {
-                saveProtein(hit.getHitDef(), hit.getHitAccession()); //sla het proteïnen op als deze nog niet in de protein tabel staat.
+                save(hit.getHitDef(), hit.getHitAccession()); //sla het proteïnen op als deze nog niet in de protein tabel staat.
                 String insertQuery = genInsert(table, cols, extractHitData(hit, ORFID));
                 handler.insert(insertQuery);
             } catch (SQLException ex) {
@@ -85,7 +88,7 @@ public class Saver {
      * @param header De header van het de BLAST Hit
      * @param accession De accesiecode van de BLAST hit
      */
-    public static void saveProtein(String header, String accession) {
+    public static void save(String header, String accession) {
         try {
             //controleer of het proteïnen als in de database is opgeslagen
             String RetrQuery = genRetr("protein", "accession", "accession", accession);
@@ -138,13 +141,14 @@ public class Saver {
             String seq = dnaObj.getSequenceAsString().toLowerCase().replace("mrna", ""); //do not save mRNA prefix
             String table = "sequence";
             String[] cols = {"header", "sequence"};
-            Object[] data = {dnaObj.getOriginalHeader(), seq};
+            Object[] data = {fitHeader(dnaObj.getOriginalHeader()), seq};
             String insertQuery = genInsert(table, cols, data);
             //het opslaan van de AUTO_INCREMENT ID's (voor het koppelen van de ORF's)
             lastSeqID = handler.insert(insertQuery);
         } catch (SQLException ex) {
             showError("Not able to insert into sequence table");
         }
+        
     }
 
     /**

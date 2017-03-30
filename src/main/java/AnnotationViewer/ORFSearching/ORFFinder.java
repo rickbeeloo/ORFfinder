@@ -44,7 +44,8 @@ public class ORFFinder {
        while (matcher.find()) {
            String orf = matcher.group(1).replace("*", ""); //stopcodons niet opslaan in sequentie
            if (orf.length() >= minLen) {
-             ORFs.add(new ORFSequence(orf,matcher.start(),matcher.end(), ORFFrame)); 
+               System.out.println("framee: " + ORFFrame);
+               ORFs.add(new ORFSequence(orf,matcher.start(),matcher.end(), ORFFrame)); 
            } 
        }
     }

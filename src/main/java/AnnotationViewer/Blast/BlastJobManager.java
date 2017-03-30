@@ -39,11 +39,6 @@ public class BlastJobManager {
     private static final String BLASTWEB = "https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Get&RID=";
 
     /**
-     * Empty constructor
-     */
-    public BlastJobManager() {}
-
-    /**
      * Deze methode ontvangt een referentie JTable waarin alle BLAST jobs komen
      * te staan.
      *
@@ -172,7 +167,6 @@ public class BlastJobManager {
         if (ActionHandler.getSaveStatus()) {
             Saver.save(job); //de BLAST resultaten worden opgeslagen in de database. 
         }
-
     }
 
     /**
