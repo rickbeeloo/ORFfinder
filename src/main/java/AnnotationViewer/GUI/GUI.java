@@ -6,7 +6,6 @@ Functionaliteit: De gebruiker kan een FASTA bestand inladen. In de sequentie
 			     kunnen worden door gebruikt te maken van een BLAST search.
 Bekende bugs:    Als de gebruiker het tijdelijke BLAST bestand verwijderd zal de
                  data niet opgeslagen kunnen worden in de database.
-
  */
 package AnnotationViewer.GUI;
 

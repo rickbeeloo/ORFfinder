@@ -64,8 +64,8 @@ public class BlastJobManager {
      * gaan in de webbrowser.
      */
     private static void setListener() {
-        removePreviousListener();
         outputTable.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 int row = outputTable.getSelectedRow();
                 int col = outputTable.getSelectedColumn();
@@ -81,18 +81,7 @@ public class BlastJobManager {
             }
         });
     }
-
-    /**
-     * Deze methode verwijderd de vorige mouseListeners van de tabel. Dus als de gebruiker
-     * opnieuw data inlaad wordt de vorige listener verwijerd.
-     */
-    private static void removePreviousListener() {
-        for (MouseListener listener : outputTable.getMouseListeners()) {
-            outputTable.removeMouseListener(listener);
-        }
-    }
-    
-    
+ 
     /**
      * Deze methode opent de resultaat pagina in de webbrowser.
      *
