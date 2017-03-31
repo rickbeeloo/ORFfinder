@@ -62,6 +62,7 @@ public class BLASTInputForm {
         frame = new JFrame();
         frame.setLayout(new FlowLayout());
         frame.setSize(600, 300);
+        frame.setName("BLAST_pop_up");
         addParameterChoices();
         frame.setVisible(true);
     }
