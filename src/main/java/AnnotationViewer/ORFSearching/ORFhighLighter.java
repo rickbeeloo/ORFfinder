@@ -16,7 +16,9 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
 /**
- *
+ * Deze class functioneert in het markeren van substirngs in strings en vervolgens
+ * het opzetten van een listener die controleerd of de gebruiker op een gemarkeerd gebied
+ * klikt.
  * @author projectgroep 12
  */
 public class ORFhighLighter {
@@ -33,6 +35,11 @@ public class ORFhighLighter {
     private Highlighter.HighlightPainter painter;
     private int inputLength;
 
+    /**
+     * Constructor
+     * @param ORFs Een ArrayList met ORF objecten waar zich de sequenties bevinden die gemarkeerd moeten worden.
+     * @param targetTextArea De JTextArea waarin de tekst staat waarin de substring gemarkeerd moeten worden.
+     */
     public ORFhighLighter(ArrayList<ORFSequence> ORFs, JTextArea targetTextArea) {
         targets = ORFs;
         textArea = targetTextArea;
@@ -83,7 +90,7 @@ public class ORFhighLighter {
     }
 
     /**
-     * Deze methode voegt een listener toe aan de textArea waarin de ORF's
+     * Deze methode voegt een listener toe aan de JTextArea waarin de ORF's
      * gemarkeerd zijn en roept de action methode aan als de gebruiker op een
      * markering klikt.
      */

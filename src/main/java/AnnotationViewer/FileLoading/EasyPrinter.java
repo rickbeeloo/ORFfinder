@@ -5,7 +5,10 @@
  */
 package AnnotationViewer.FileLoading;
 
+import AnnotationViewer.GUI.GUI;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.biojava.nbio.core.sequence.DNASequence;
 import org.biojava.nbio.core.sequence.template.Sequence;
@@ -36,9 +39,7 @@ public class EasyPrinter {
         }
         if (obj instanceof DNASequence) {
             txtOutput = DNAseqPrinter(obj);
-        } else {
-            showError("This type is not supported!");
-        }
+        } 
         return txtOutput;
     }
 
@@ -77,14 +78,6 @@ public class EasyPrinter {
 
     }
     
-    /**
-     * Deze methode laat een Error pop-up zien met daarin het meegegeven
-     * bericht.
-     *
-     * @param mssg Het bericht dat weergegeven moet worden in de pop-up.
-     */
-    private static void showError(String mssg) {
-        JOptionPane.showMessageDialog(null, mssg, "ERROR", JOptionPane.ERROR_MESSAGE);
-    }
+    
 
 }

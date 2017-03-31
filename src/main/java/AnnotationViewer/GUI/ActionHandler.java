@@ -18,6 +18,7 @@ import AnnotationViewer.ORFSearching.ORFhighLighter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import org.biojava.nbio.core.exceptions.CompoundNotFoundException;
@@ -25,8 +26,9 @@ import org.biojava.nbio.core.sequence.ProteinSequence;
 import org.biojava.nbio.core.sequence.transcription.Frame;
 
 /**
- * Deze class zorgt voor het afhandelen van alle acties die de gebruiker teweeg brengt door het klikken
- * op een button in de GUI.
+ * Deze class zorgt voor het afhandelen van alle acties die de gebruiker teweeg
+ * brengt door het klikken op een button in de GUI.
+ *
  * @author projectgroep 12
  */
 public class ActionHandler {
@@ -65,23 +67,30 @@ public class ActionHandler {
      * Saver aan om de FASTA header en de FASTA sequentie in de database op te
      * slaan.
      *
-     * @throws IOException gooit een exception als het FASTA bestand niet
-     * gelezen kan worden.
-     * @throws AnnotationViewer.DataStorage.LengthException
      */
-    public void parseFile() throws IOException, LengthException {
-        FileParser parser = new FileParser(FileHandler.openFile());
-        parser.parse();
-        if (EasyPrinter.print(parser.getDNA()).length() < 1000) {
-            refSeqWrapper.setDNASeq(parser.getDNA());
-            Saver.setConnection(); //open de connectie voor volgende opslaan acties
-            if (getSaveStatus() == true) {
-                Saver.save(parser.getDNA());
+    public void parseFile() {
+        try {
+            FileParser parser = new FileParser(FileHandler.openFile());
+            parser.parse();
+            if (EasyPrinter.print(parser.getDNA()).length() < 1000) {
+                refSeqWrapper.setDNASeq(parser.getDNA());
+                Saver.setConnection(); //open de connectie voor volgende opslaan acties
+                if (getSaveStatus() == true) {
+                    Saver.save(parser.getDNA());
+                }
+            } else {
+                throw new LengthException();
             }
-        } else {
-            throw new LengthException();
+        } catch (IOException ex) {
+            showError("Cannot find given file!");
+            parseFile();
+        } catch (LengthException ex) {
+            showError("The sequence is > 1000bp!");
+            parseFile();
+        } catch (NoSuchElementException ex) {
+            showError("This is not a DNA sequence!");
+            parseFile();
         }
-
     }
 
     /**

@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+    <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuOpenButton">
           <Properties>
@@ -47,7 +47,7 @@
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
@@ -69,9 +69,9 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSeparator2" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="seperatorLine" alignment="1" max="32767" attributes="0"/>
+                  <Component id="sequentieScrollPane" alignment="0" max="32767" attributes="0"/>
+                  <Component id="blastTabelScrollPane" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="readingFrameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -94,22 +94,22 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="headerLabel" min="-2" pref="115" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSeparator2" min="-2" pref="9" max="-2" attributes="0"/>
+              <Component id="seperatorLine" min="-2" pref="9" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="readingFrameLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="136" max="-2" attributes="0"/>
+              <Component id="sequentieScrollPane" min="-2" pref="136" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="blastTableLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="93" max="-2" attributes="0"/>
+              <Component id="blastTabelScrollPane" min="-2" pref="93" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="sequentieScrollPane">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -126,7 +126,7 @@
             <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
           </AccessibilityProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="//make everything transparent except for the text&#xa;jScrollPane1.setOpaque(false);&#xa;jScrollPane1.getViewport().setOpaque(false);&#xa;jScrollPane1.setBorder(null);&#xa;jScrollPane1.setViewportBorder(null);&#xa;readingFrameTextArea.setBackground(new Color(0, 0, 0, 0));&#xa;readingFrameTextArea.setBorder(null);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="//make everything transparent except for the text&#xa;sequentieScrollPane.setOpaque(false);&#xa;sequentieScrollPane.getViewport().setOpaque(false);&#xa;sequentieScrollPane.setBorder(null);&#xa;sequentieScrollPane.setViewportBorder(null);&#xa;readingFrameTextArea.setBackground(new Color(0, 0, 0, 0));&#xa;readingFrameTextArea.setBorder(null);"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -145,7 +145,7 @@
         </Property>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+    <Container class="javax.swing.JScrollPane" name="blastTabelScrollPane">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -189,7 +189,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator2">
+    <Component class="javax.swing.JSeparator" name="seperatorLine">
     </Component>
   </SubComponents>
 </Form>

@@ -39,7 +39,7 @@ public class BlastParser {
     }
     
     /**
-     * Deze methode parsed de resultaten in het XML bestand waarin de BLAST 
+     * Deze methode parsed de resultaten uit het XML bestand waarin de BLAST 
      * resultaten zijn opgeslagen. 
      */
     public void parse() {
@@ -58,7 +58,7 @@ public class BlastParser {
      * Deze methode haalt alle top x hits op uit het XML bestand. Deze top Hit 
      * objecten worden opgeslagen in een ArryList en geretouneerd. 
      * @param top Het aantal top hits dat weergegeven moet worden
-     * @return  retouneert een ArrayList met x aantal Hit objecten.
+     * @return Retouneert een ArrayList met x aantal Hit objecten.
      */
     public ArrayList<Hit> getTopHits(int top) {
         ArrayList<Hit> hits = new ArrayList<>();

@@ -58,7 +58,7 @@ public class Blast {
 
     /**
      * Deze methode zorgt voor het opstellen van de alignment opties (database
-     * en BLAST programma) en het instellen van het maximaal aantal alginements
+     * en BLAST programma) en het instellen van het maximaal aantal alignments
      * dat gemaakt moet worden.
      */
     private void setServices() {

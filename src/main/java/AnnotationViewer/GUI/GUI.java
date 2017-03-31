@@ -9,8 +9,8 @@ import AnnotationViewer.Blast.BlastJobManager;
 import AnnotationViewer.DataStorage.LengthException;
 import java.awt.Color;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.NoSuchElementException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,15 +42,15 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        sequentieScrollPane = new javax.swing.JScrollPane();
         readingFrameTextArea = new javax.swing.JTextArea();
         readingFrameLabel = new javax.swing.JLabel();
         blastTableLabel = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        blastTabelScrollPane = new javax.swing.JScrollPane();
         blastOutputTable = new javax.swing.JTable();
         headerLabel = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        seperatorLine = new javax.swing.JSeparator();
+        menuBar = new javax.swing.JMenuBar();
         menuOpenButton = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         menuSearchButton = new javax.swing.JMenu();
@@ -60,12 +60,12 @@ public class GUI extends javax.swing.JFrame {
 
         readingFrameTextArea.setColumns(20);
         readingFrameTextArea.setRows(5);
-        jScrollPane1.setViewportView(readingFrameTextArea);
+        sequentieScrollPane.setViewportView(readingFrameTextArea);
         //make everything transparent except for the text
-        jScrollPane1.setOpaque(false);
-        jScrollPane1.getViewport().setOpaque(false);
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setViewportBorder(null);
+        sequentieScrollPane.setOpaque(false);
+        sequentieScrollPane.getViewport().setOpaque(false);
+        sequentieScrollPane.setBorder(null);
+        sequentieScrollPane.setViewportBorder(null);
         readingFrameTextArea.setBackground(new Color(0, 0, 0, 0));
         readingFrameTextArea.setBorder(null);
         readingFrameTextArea.getAccessibleContext().setAccessibleName("readingFrameTextArea");
@@ -92,7 +92,7 @@ public class GUI extends javax.swing.JFrame {
             }
         };
         blastOutputTable.setModel(tableModel);
-        jScrollPane2.setViewportView(blastOutputTable);
+        blastTabelScrollPane.setViewportView(blastOutputTable);
         blastOutputTable.getAccessibleContext().setAccessibleName("blastJobTable");
 
         headerLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/header.JPG"))); // NOI18N
@@ -108,7 +108,7 @@ public class GUI extends javax.swing.JFrame {
         });
         menuOpenButton.add(jMenuItem1);
 
-        jMenuBar1.add(menuOpenButton);
+        menuBar.add(menuOpenButton);
 
         menuSearchButton.setText("Search");
 
@@ -121,9 +121,9 @@ public class GUI extends javax.swing.JFrame {
         });
         menuSearchButton.add(jMenuItem2);
 
-        jMenuBar1.add(menuSearchButton);
+        menuBar.add(menuSearchButton);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,9 +132,9 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2)
+                    .addComponent(seperatorLine, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(sequentieScrollPane)
+                    .addComponent(blastTabelScrollPane)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(readingFrameLabel)
@@ -151,15 +151,15 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(seperatorLine, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(readingFrameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sequentieScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(blastTableLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(blastTabelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
         );
 
@@ -173,15 +173,9 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Een actionEvent.
      */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            actionHandler.parseFile();
-            actionHandler.calcRFs();
-            actionHandler.showProteinRFs(readingFrameTextArea);
-        } catch (IOException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LengthException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        actionHandler.parseFile();
+        actionHandler.calcRFs();
+        actionHandler.showProteinRFs(readingFrameTextArea);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -197,7 +191,7 @@ public class GUI extends javax.swing.JFrame {
         actionHandler.ResultCheckAction();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-   
+    
     /**
      * Deze methode zorgt voor het weergeven van de GUI.
      *
@@ -237,17 +231,17 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable blastOutputTable;
+    private javax.swing.JScrollPane blastTabelScrollPane;
     private javax.swing.JLabel blastTableLabel;
     private javax.swing.JLabel headerLabel;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuOpenButton;
     private javax.swing.JMenu menuSearchButton;
     private javax.swing.JLabel readingFrameLabel;
     private javax.swing.JTextArea readingFrameTextArea;
+    private javax.swing.JSeparator seperatorLine;
+    private javax.swing.JScrollPane sequentieScrollPane;
     // End of variables declaration//GEN-END:variables
 }

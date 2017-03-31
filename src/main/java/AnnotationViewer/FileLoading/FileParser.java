@@ -6,7 +6,6 @@
 package AnnotationViewer.FileLoading;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -16,7 +15,7 @@ import org.biojava.nbio.core.sequence.DNASequence;
 import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
 
 /**
- *
+ * Deze class zorgt voor het parse van de informatie uit een FASTA bestand: de header en de sequentie. 
  * @author projectgroep 12
  */
 public class FileParser {
@@ -41,18 +40,10 @@ public class FileParser {
      * @throws IOException Gooit een exception als het FASTA bestand niet
      * gelezen kan worden.
      */
-    public void parse() throws IOException {
+    public void parse() throws IOException, NoSuchElementException {
         LinkedHashMap<String, DNASequence> data;
-        try {
-            data = FastaReaderHelper.readFastaDNASequence(bestand);
-            DNAobj = getFirstEntry(data).getValue(); //laad alleen de eerste sequentie in als een multiple FASTA file 
-        } catch (NoSuchElementException ex) {        //wordt ingeladen.
-            showError("No FASTA DNA sequences present in the file.");
-        } catch (FileNotFoundException ex) {
-            showError("Cannot find the requested file.");
-        } catch (Exception ex) {
-            showError("Please provide a valid FASTA file.");
-        }
+        data = FastaReaderHelper.readFastaDNASequence(bestand);
+        DNAobj = getFirstEntry(data).getValue(); //laad alleen de eerste sequentie in als een multiple FASTA file 
     }
 
     /**

@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *Deze class if verantwoordelijk voor het open, save en sluit acties
+ * Deze class is verantwoordelijk voor het open, opslaan en sluit acties
  * van bestanden.
  * @author projectgroep12
  */

@@ -85,7 +85,7 @@ public class BLASTInputForm {
      *
      * @param text een 2D array met daarin de text die opgenomen moet worden als
      * keuze bij iedere JComboBox
-     * @return een ArrayList met de JComboBoxes met de gewenste text.
+     * @return Retouneert een ArrayList met de JComboBoxes met de gewenste text.
      */
     private ArrayList<JComboBox> createComboFields(String[][] text) {
         ArrayList<JComboBox> comboBoxes = new ArrayList<>();
@@ -100,8 +100,8 @@ public class BLASTInputForm {
      * textField en maakt hiermee textFields aan.
      *
      * @param txt De text die opgenomen moet worden per JTextField.
-     * @param size De grootte van het jTextField.
-     * @return Een ArrayList met daarin de JTextFields.
+     * @param size De grootte de jTextFields.
+     * @return Retouneert een ArrayList met daarin de JTextFields.
      */
     private ArrayList<JTextField> createInputFields(String[] txt, int size) {
         ArrayList<JTextField> textFields = new ArrayList<>();
@@ -117,7 +117,7 @@ public class BLASTInputForm {
      *
      * @param boxes Een ArrayList met daarin JComboBox objecten.
      * @param fields Een ArrayList met daarin JTextFields.
-     * @return Een ArrayList waarin zowel de boxes als fields zitten.
+     * @return Retouneert een ArrayList waarin zowel de boxes als fields zitten.
      */
     private ArrayList<JComponent> mergeBoxesAndFields(ArrayList<JComboBox> boxes, ArrayList<JTextField> fields) {
         ArrayList<JComponent> merged = new ArrayList<>();
@@ -130,7 +130,7 @@ public class BLASTInputForm {
      * Deze methode creeert de labels die aangeven welke keuzes de gebruiker kan
      * maken.
      *
-     * @return Geeft een array van JLabels terug.
+     * @return Retouneert een ArrayList van JLabels terug.
      */
     private ArrayList<JLabel> createLabels(String[] txt) {
         ArrayList<JLabel> labels = new ArrayList<>();
@@ -183,8 +183,8 @@ public class BLASTInputForm {
                 if (Eval.length() > 0 && isDouble(Eval)) {
                     Blast blast = new Blast(
                             ORFobj.getAAseq(),
-                            (String)programField.getSelectedItem(),
-                            (String)dbField.getSelectedItem(),
+                            (String) programField.getSelectedItem(),
+                            (String) dbField.getSelectedItem(),
                             Double.parseDouble(EvalField.getText()),
                             10);
                     blast.sendRequest();
@@ -193,7 +193,7 @@ public class BLASTInputForm {
                 } else {
                     showError("Please provide a valid E-value cut-off.");
                 }
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 showError("An unexpected error occured.");
             }
         });

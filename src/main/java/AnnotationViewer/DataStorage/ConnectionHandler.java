@@ -6,7 +6,7 @@
 package AnnotationViewer.DataStorage;
 
 /**
- * Deze methode is verantwoordelijk voor het verbinden met de database, het
+ * Deze class is verantwoordelijk voor het verbinden met de database, het
  * uitvoeren van queries op deze database en het sluiten van de connectie.
  *
  * @author projectgroep12

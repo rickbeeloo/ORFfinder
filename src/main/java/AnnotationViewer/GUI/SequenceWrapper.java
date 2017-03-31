@@ -14,7 +14,8 @@ import org.biojava.nbio.core.sequence.RNASequence;
 import org.biojava.nbio.core.sequence.transcription.Frame;
 
 /**
- *
+ * Deze class functioneert als centraal opslagpunt voor alle informatie die afhankelijk is van de 
+ * ingeladen DNA sequentie(reading frame sequenties en ORFs)
  * @author projectgroep 12
  */
 public class SequenceWrapper {

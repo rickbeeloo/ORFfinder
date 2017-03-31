@@ -173,7 +173,7 @@ public class BlastJobManager {
      * Deze methode update een rij in de tabel met de gegeven status
      *
      * @param status Een String object met daarin de status van de job
-     * @param row De row waarin de status moet worden weergegeven.
+     * @param row De rij waarin de status moet worden weergegeven.
      */
     private static void updateJobStatus(String status, int row) {
         outputTable.setValueAt(status, row, 1);
