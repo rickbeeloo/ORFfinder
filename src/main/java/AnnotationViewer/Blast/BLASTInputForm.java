@@ -65,6 +65,7 @@ public class BLASTInputForm {
         frame.setName("BLAST_pop_up");
         addParameterChoices();
         frame.setVisible(true);
+        frame.setTitle("Blast Settings");
     }
 
     /**

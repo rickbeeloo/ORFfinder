@@ -52,6 +52,8 @@ public class ORFPopUp {
         addTable();
         addBlastButton();
         frame.setVisible(true);
+        
+        frame.setTitle("ORF");
     }
 
     /**
