@@ -46,6 +46,7 @@ public class ORFPopUp {
      */
     public void show() {
         frame = new JFrame();
+        frame.setName("ORF_pop_up");
         frame.setLayout(new FlowLayout());
         frame.setSize(600, 300);
         addTable();
