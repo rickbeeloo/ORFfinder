@@ -15,7 +15,7 @@ import org.biojava.nbio.core.sequence.transcription.Frame;
 
 /**
  *
- * @author RICK
+ * @author projectgroep 12
  */
 public class SequenceWrapper {
 

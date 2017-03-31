@@ -5,12 +5,10 @@
  */
 package AnnotationViewer.Blast;
 
-import AnnotationViewer.GUI.ActionHandler;
 import AnnotationViewer.ORFSearching.ORFSequence;
 import AnnotationViewer.ORFSearching.SpringUtilities;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -79,7 +77,7 @@ public class BLASTInputForm {
         addPairs(panel, labels, inputFields);
         SpringUtilities.makeCompactGrid(panel, 4, 2, 6, 6, 6, 6);
         frame.add(panel);
-        addBlastAction(panel, comboBoxes.get(0), comboBoxes.get(1), textFields.get(0));
+        addBlastAction(comboBoxes.get(0), comboBoxes.get(1), textFields.get(0));
     }
 
     /**
@@ -176,29 +174,30 @@ public class BLASTInputForm {
      * moet worden.
      * @return Geeft een JPanel terug met daarin de BLAST button.
      */
-    private void addBlastAction(JPanel panel, JComboBox programField, JComboBox dbField, JTextField EvalField) {
+    private void addBlastAction(JComboBox programField, JComboBox dbField, JTextField EvalField) {
         JPanel submitPanel = new JPanel();
-        JButton blast = new JButton("RUN BLAST");
-        blast.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String Eval = EvalField.getText();
-                    if (Eval.length() > 0 && isDouble(Eval)) {
-                        ActionHandler handler = new ActionHandler();
-                        handler.PerfromBlastAction(ORFobj,(String) programField.getSelectedItem(),
-                                (String) dbField.getSelectedItem(), Double.parseDouble(EvalField.getText()),
-                                10 //standaard top 10 vanwege opslag en snelheid                
-                        );
-                        frame.dispose();
-                    } else {
-                        showError("Please provide a valid E-value cut-off.");
-                    }
-                } catch (Exception ex) {
-                    showError("An unexpected error occured.");
+        JButton blastButton = new JButton("RUN BLAST");
+        blastButton.addActionListener((ActionEvent e) -> {
+            try {
+                String Eval = EvalField.getText();
+                if (Eval.length() > 0 && isDouble(Eval)) {
+                    Blast blast = new Blast(
+                            ORFobj.getAAseq(),
+                            (String)programField.getSelectedItem(),
+                            (String)dbField.getSelectedItem(),
+                            Double.parseDouble(EvalField.getText()),
+                            10);
+                    blast.sendRequest();
+                    BlastJobManager.addJob(blast, ORFobj.getID());
+                    frame.dispose();
+                } else {
+                    showError("Please provide a valid E-value cut-off.");
                 }
+            }catch (Exception ex) {
+                showError("An unexpected error occured.");
             }
         });
-        submitPanel.add(blast);
+        submitPanel.add(blastButton);
         frame.add(submitPanel);
     }
 

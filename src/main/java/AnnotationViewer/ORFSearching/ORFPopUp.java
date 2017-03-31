@@ -5,7 +5,7 @@
  */
 package AnnotationViewer.ORFSearching;
 
-import AnnotationViewer.GUI.ActionHandler;
+import AnnotationViewer.Blast.BLASTInputForm;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -96,8 +96,8 @@ public class ORFPopUp {
         blast.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ActionHandler handler = new ActionHandler();
-                handler.BLASTinputAction(ORFobj);
+                BLASTInputForm form = new BLASTInputForm(ORFobj);
+                form.show();
                 frame.dispose();
             }
         });

@@ -14,7 +14,7 @@ import org.biojava.nbio.core.sequence.transcription.Frame;
 
 /**
  * Deze class zoekt ORF's in de ingegeven sequentie.
- * @author RICK
+ * @author projectgroep 12
  */
 
 public class ORFFinder {
@@ -44,7 +44,6 @@ public class ORFFinder {
        while (matcher.find()) {
            String orf = matcher.group(1).replace("*", ""); //stopcodons niet opslaan in sequentie
            if (orf.length() >= minLen) {
-               System.out.println("framee: " + ORFFrame);
                ORFs.add(new ORFSequence(orf,matcher.start(),matcher.end(), ORFFrame)); 
            } 
        }

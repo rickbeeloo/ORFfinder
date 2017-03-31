@@ -18,8 +18,7 @@ import org.biojava.nbio.ws.alignment.qblast.NCBIQBlastService;
 
 /**
  * Deze class is verantwoordelijk voor het uitvoeren van BLAST searches tegen de
- * NCBI database. De code uit de BioJava handleiding is gebruikt als basis voor
- * deze class.
+ * NCBI database.
  *
  * @author projectgroep 12
  */
@@ -31,7 +30,6 @@ public class Blast {
     private String blastDatabase;
     private NCBIQBlastService service;
     private NCBIQBlastAlignmentProperties props;
-    private ArrayList<Hit> blastResults;
     private NCBIQBlastOutputProperties outputProps;
     private BlastParser parser;
     private File XMLFile;
@@ -70,6 +68,8 @@ public class Blast {
             setOutputOptions();
         } catch (ProgramException ex) {
             showError("please provide a valid datbase: \n blastn, blastp, tblastn, tblastx");
+        } catch (Exception ex) {
+            showError("Cannot connenct to NCBI database!");
         }
     }
 
@@ -119,10 +119,9 @@ public class Blast {
     }
 
     /**
-     * Deze mmethode start een nieuwe Thread waarin een request wordt gestuurd
+     * Deze methode start een nieuwe Thread waarin een request wordt gestuurd
      * naar de NCBI server. Deze thread blijft "levend" zolang de BLAST server
      * nog geen resultaat heeft geretouneerd.
-     *
      *
      * @throws Exception Gooit een Exception als er geen verbinding gemaakt kan
      * worden met de NCBI server.
@@ -133,15 +132,12 @@ public class Blast {
                 rid = null;
                 //stuur een BLAST request en sla het ID op.
                 rid = service.sendAlignmentRequest(sequence, props);
-                System.out.println(rid);
                 while (!service.isReady(rid)) {
                     Thread.sleep(5000);
                 }
                 readResults(rid);
-            } catch (IOException ex) {
-                showError("Cannot connect to NCBI please check your internet connection");
             } catch (Exception ex) {
-                showError("An unknown exception has occured");
+                showError("Cannot connect to NCBI server");
             }
         });
         t.start();
@@ -158,9 +154,8 @@ public class Blast {
     }
 
     /**
-     * Aangepast voorbeeld uit de BioJava handleiding. Deze methode haalt op
-     * basis van het door de NCBI server teruggegeven BLAST ID het resultaat op
-     * en slaat dit op in een XML bestand.
+     * Deze methode haalt op basis van het door de NCBI server teruggegeven
+     * BLAST ID het resultaat op en slaat dit op in een tijdelijk bestand.
      *
      * @param rid BLAST job ID (geretouneerd door de NCBI server)
      * @throws IOException Gooit een exception als er niet naar het bestand kan
@@ -169,24 +164,25 @@ public class Blast {
      */
     private void readResults(String rid) throws IOException, Exception {
         InputStream inStream = service.getAlignmentResults(rid, outputProps);
-        XMLFile = new TempFile(inStream).getFile();  
+        TempFile file = new TempFile(inStream);
+        XMLFile = file.getFile();
     }
-    
+
     /**
      * Deze methode zorgt voor het instantiëren van de BLAST parser en het
      * aanroepen van de parse methoden in deze parser.
      */
     public void parse() {
-        parser = new BlastParser(XMLFile,maxEval);
+        parser = new BlastParser(XMLFile, maxEval);
         parser.parse();
-        XMLFile.delete(); 
+        //XMLFile.delete(); 
     }
 
     /**
      * Deze methode retouneert de gevonden top x BLAST hits. Waarbij x een
      * meegegeven getal is bij instantiatie van deze class.
      *
-     * @return
+     * @return Retouneert een ArrayList met daarin de top x Hit objecten.
      */
     public ArrayList<Hit> getHits() {
         return parser.getTopHits(top);

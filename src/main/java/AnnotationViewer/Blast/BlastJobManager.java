@@ -114,7 +114,7 @@ public class BlastJobManager {
      * @return retouneert een Boolean die aangeeft of alle jobs in de wachtrij
      * (op dit moment) klaar zijn.
      */
-    public Boolean everyThingDone() {
+    public static Boolean everyThingDone() {
         HashSet<Boolean> set = new HashSet<>(finished);
         if (set.size() == 1) {
             return set.iterator().next();
@@ -145,7 +145,7 @@ public class BlastJobManager {
     }
 
     /**
-     * Deze methode laat een Job in de tabel als deze nog niet klaar is.
+     * Deze methode laat een Job in de tabel zien als deze nog niet klaar is.
      *
      * @param job
      */

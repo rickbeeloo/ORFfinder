@@ -70,7 +70,7 @@ public class ConnectionHandler {
         while (rs.next()) {
             return (rs.getInt(1));
         }
-        return 0; //retouneer 0 als er geen AUTO_INCREMENT kolom in de tabel aanwezig is.
+        return -1; //retouneer -1 als er geen AUTO_INCREMENT kolom in de tabel aanwezig is.
     }
 
     /**

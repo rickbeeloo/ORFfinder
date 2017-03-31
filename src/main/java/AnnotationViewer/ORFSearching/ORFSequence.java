@@ -16,7 +16,7 @@ import org.biojava.nbio.core.sequence.transcription.Frame;
  * Deze class functioneert als DNASequence wrapper. Dit is een uitbreiding op
  * het bestaande DNASequence object uit de Biojava library.
  *
- * @author RICK
+ * @author projectgroep 12
  */
 public class ORFSequence {
 
@@ -32,6 +32,14 @@ public class ORFSequence {
     private int stopPos;
     private ArrayList<Hit> blastHits;
 
+    /**
+     * Constructor
+     * @param sequence De ORF sequentie (proteïnen) als String object
+     * @param start De start positie van het ORF als int
+     * @param stop De stop positie van het ORF als int
+     * @param rf Het reading frame waarop het ORF ligt als char (+ of -)
+     * @throws CompoundNotFoundException Gooit een Exception als de input geen proteïne sequentie is.
+     */
     ORFSequence(String sequence, int start, int stop, Frame rf) throws CompoundNotFoundException {
         ORFCounter++;
         ORFID = "ORF_" + ORFCounter;
@@ -81,7 +89,7 @@ public class ORFSequence {
      * @return Retouneert de strand: antisense/sense waarin het ORF ligt.
      */
     public char getStrand() {
-        return(ReadingFrameCalculator.getStrand(readingFrame));
+        return (ReadingFrameCalculator.getStrand(readingFrame));
     }
 
 }

@@ -6,31 +6,29 @@
 package AnnotationViewer.GUI;
 
 import AnnotationViewer.Blast.BlastJobManager;
+import AnnotationViewer.DataStorage.LengthException;
 import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author RICK
+ * @author projectgroep 12
  */
 public class GUI extends javax.swing.JFrame {
 
-    //class variables
-    private static final SequenceWrapper SEQWRAPPER = new SequenceWrapper();
-    private static final BlastJobManager MANAGER = new BlastJobManager();
-    private static final ActionHandler UPDATER = new ActionHandler();
+    //instantie variable
+    private final ActionHandler actionHandler = new ActionHandler();
+ 
     
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
-        //zorgen dat alle GUI afhankelijke classes voldoende data hebben om te functioneren
-        ActionHandler.setReferenceWrapper(SEQWRAPPER);
-        ActionHandler.setReferenceOutput(jTextArea1);
-        BlastJobManager.setOutputTable(jTable1);
-        ActionHandler.setBlastJobManager(MANAGER);
-        UPDATER.saveChoiceAction("Should the data be saved to the database?", "OPTION");
+        actionHandler.saveChoiceAction("Should the data be saved to the database?", "OPTION");
     }
     
 
@@ -45,37 +43,37 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        readingFrameTextArea = new javax.swing.JTextArea();
+        readingFrameLabel = new javax.swing.JLabel();
+        blastTableLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
+        blastOutputTable = new javax.swing.JTable();
+        headerLabel = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuOpenButton = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        menuSearchButton = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        readingFrameTextArea.setColumns(20);
+        readingFrameTextArea.setRows(5);
+        jScrollPane1.setViewportView(readingFrameTextArea);
         //make everything transparent except for the text
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
         jScrollPane1.setBorder(null);
         jScrollPane1.setViewportBorder(null);
-        jTextArea1.setBackground(new Color(0, 0, 0, 0));
-        jTextArea1.setBorder(null);
-        jTextArea1.getAccessibleContext().setAccessibleName("readingFrameTextArea");
-        jTextArea1.getAccessibleContext().setAccessibleDescription("");
+        readingFrameTextArea.setBackground(new Color(0, 0, 0, 0));
+        readingFrameTextArea.setBorder(null);
+        readingFrameTextArea.getAccessibleContext().setAccessibleName("readingFrameTextArea");
+        readingFrameTextArea.getAccessibleContext().setAccessibleDescription("");
 
-        jLabel1.setText("<html><b>Reading frame sequences:</b></html>");
+        readingFrameLabel.setText("<html><b>Reading frame sequences:</b></html>");
 
-        jLabel2.setText("<html><b>BLAST jobs:</b></html>");
+        blastTableLabel.setText("<html><b>BLAST jobs:</b></html>");
 
         DefaultTableModel tableModel = new DefaultTableModel (
             new Object [][] {
@@ -93,13 +91,13 @@ public class GUI extends javax.swing.JFrame {
                 return false;
             }
         };
-        jTable1.setModel(tableModel);
-        jScrollPane2.setViewportView(jTable1);
-        jTable1.getAccessibleContext().setAccessibleName("blastJobTable");
+        blastOutputTable.setModel(tableModel);
+        jScrollPane2.setViewportView(blastOutputTable);
+        blastOutputTable.getAccessibleContext().setAccessibleName("blastJobTable");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/header.JPG"))); // NOI18N
+        headerLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/header.JPG"))); // NOI18N
 
-        jMenu1.setText("File");
+        menuOpenButton.setText("File");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/openIcon.png"))); // NOI18N
         jMenuItem1.setText("Open");
@@ -108,11 +106,11 @@ public class GUI extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menuOpenButton.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuOpenButton);
 
-        jMenu2.setText("Search");
+        menuSearchButton.setText("Search");
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/zoekIcoon.png"))); // NOI18N
         jMenuItem2.setText("ORF's");
@@ -121,9 +119,9 @@ public class GUI extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        menuSearchButton.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuSearchButton);
 
         setJMenuBar(jMenuBar1);
 
@@ -139,27 +137,27 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(readingFrameLabel)
+                            .addComponent(blastTableLabel))
                         .addGap(0, 625, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(151, 151, 151))
+                .addComponent(headerLabel)
+                .addGap(153, 153, 153))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(readingFrameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(blastTableLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
@@ -175,7 +173,15 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Een actionEvent.
      */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        UPDATER.OpenAction();
+        try {
+            actionHandler.parseFile();
+            actionHandler.calcRFs();
+            actionHandler.showProteinRFs(readingFrameTextArea);
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LengthException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -185,8 +191,10 @@ public class GUI extends javax.swing.JFrame {
      * @param evt Een actionEvent.
      */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        UPDATER.ORFAction();
-        UPDATER.ResultCheckAction();
+        actionHandler.searchORFs();
+        actionHandler.highLightORFs(readingFrameTextArea);
+        BlastJobManager.setOutputTable(blastOutputTable);
+        actionHandler.ResultCheckAction();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
    
@@ -228,18 +236,18 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JTable blastOutputTable;
+    private javax.swing.JLabel blastTableLabel;
+    private javax.swing.JLabel headerLabel;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JMenu menuOpenButton;
+    private javax.swing.JMenu menuSearchButton;
+    private javax.swing.JLabel readingFrameLabel;
+    private javax.swing.JTextArea readingFrameTextArea;
     // End of variables declaration//GEN-END:variables
 }

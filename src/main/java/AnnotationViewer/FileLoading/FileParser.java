@@ -17,7 +17,7 @@ import org.biojava.nbio.core.sequence.io.FastaReaderHelper;
 
 /**
  *
- * @author RICK
+ * @author projectgroep 12
  */
 public class FileParser {
 

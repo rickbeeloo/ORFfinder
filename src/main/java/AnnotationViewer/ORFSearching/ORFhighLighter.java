@@ -17,7 +17,7 @@ import javax.swing.text.Highlighter;
 
 /**
  *
- * @author RICK
+ * @author projectgroep 12
  */
 public class ORFhighLighter {
 
@@ -96,7 +96,7 @@ public class ORFhighLighter {
                     }
                 } catch (Exception ex) {
                     //*ignogre*
-                    //De gebruiker heefft niet op een markering geklikt
+                    //De gebruiker klikt naast de markering
                 }
 
             }

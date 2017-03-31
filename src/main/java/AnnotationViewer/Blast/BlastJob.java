@@ -33,7 +33,7 @@ public class BlastJob {
     }
 
     /**
-     * @return retouneert de status van de BLAST job. Dus of de NCBI server de
+     * @return Retouneert de status van de BLAST job. Dus of de NCBI server de
      * resultaten al heeft teruggestuurd naar de applicatie of niet.
      */
     public Boolean checkStatus() {
@@ -41,14 +41,14 @@ public class BlastJob {
     }
 
     /**
-     * @return retouneert het job ID.
+     * @return Retouneert het job ID.
      */
     public String getID() {
         return jobID;
     }
 
     /**
-     * @return retouneert het Blast object
+     * @return Retouneert het Blast object
      */
     public Blast getBlastObj() {
         return BLASTObj;
@@ -59,7 +59,7 @@ public class BlastJob {
      * job ID is afgeleid van het ORF ID.
      *
      * @param o Een Blast object om mee te vergelijken.
-     * @return retouneert True als beide objecten hetzelfde Blast job ID hebben.
+     * @return Retouneert True als beide objecten hetzelfde Blast job ID hebben.
      */
     @Override
     public boolean equals(Object o) {
@@ -68,7 +68,7 @@ public class BlastJob {
     }
 
     /**
-     * @return De hashcode van een BlastJob object op basis van het Blast job
+     * @return Retouneert de hashcode van een BlastJob object op basis van het Blast job
      * ID.
      */
     @Override

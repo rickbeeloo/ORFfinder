@@ -24,9 +24,9 @@ import org.biojava.nbio.core.search.io.blast.BlastXMLParser;
 public class BlastParser {
     
     //instantie variabele
-    File xmlInputFile;
-    double maxEValue;
-    List<Result> results;
+    private File xmlInputFile;
+    private double maxEValue;
+    private List<Result> results;
     
     /**
      * Constructor

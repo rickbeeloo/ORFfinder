@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.biojava.nbio.core.search.io.Hit;
 import org.biojava.nbio.core.search.io.Hsp;
@@ -40,6 +38,7 @@ public class Saver {
     private static final String FROM = " FROM ";
     private static final String WHERE = " WHERE ";
     private static final String EQUALS = "=";
+    private static final String BRACKETPATTERN = "\\[|\\]";
     private static ConnectionHandler handler;
     private static int lastSeqID;
     private static HashMap<String, Integer> ORFIDs;
@@ -73,20 +72,44 @@ public class Saver {
         for (Hit hit : blastObj.getHits()) {
             try {
                 save(hit.getHitDef(), hit.getHitAccession()); //sla het proteïnen op als deze nog niet in de protein tabel staat.
-                String insertQuery = genInsert(table, cols, extractHitData(hit, ORFID));
-                handler.insert(insertQuery);
+                Object[] data = extractHitData(hit, ORFID);
+                if (data != null) {
+                     String insertQuery = genInsert(table, cols ,data);
+                     handler.insert(insertQuery);
+                }
             } catch (SQLException ex) {
                 showError("Not able to insert into blast table");
             }
         }
     }
+    
+    /**
+     * Deze methode ontvangt het HIT object en het ORF id en gebruikt deze om de
+     * informatie te extraheren die opgeslagen moet worden in database.
+     *
+     * @param hit Een HIT object waarvan de data opgeslagen moet worden.
+     * @param ORFID Een ORFobject waarbij de BLAST hit hoort.
+     * @return Retouneert de data die ingevoegd moet worden.
+     */
+    private static Object[] extractHitData(Hit hit, String ORFID) {
+        Object[] data = null;
+        Boolean next = hit.iterator().hasNext();
+        if (next) {
+             Hsp specs = hit.iterator().next();
+             data = new Object[]{specs.getHspBitScore(), specs.getHspEvalue(), 
+                 specs.getHspHseq(),specs.getHspIdentity(), specs.getHspPositive(), 
+                 specs.getHspGaps(), ORFIDs.get(ORFID), hit.getHitAccession()};
+        }
+        return data;
+    }
+    
 
     /**
      * Deze methode slaat de proteïnen naame en proteïne accessiecode op in de
      * datbase als deze nog niet in de databas staat.
      *
-     * @param header De header van het de BLAST Hit
-     * @param accession De accesiecode van de BLAST hit
+     * @param header De header van het de BLAST Hit.
+     * @param accession De accessiecode van de BLAST hit.
      */
     public static void save(String header, String accession) {
         try {
@@ -152,21 +175,6 @@ public class Saver {
     }
 
     /**
-     * Deze methode ontvangt het HIT object en het ORF id en gebruikt deze om de
-     * informatie te extraheren die opgeslagen moet worden in database.
-     *
-     * @param hit Een HIT object waarvan de data opgeslagen moet worden.
-     * @param ORFID Een ORFobject waarbij de BLAST hit hoort.
-     * @return Retouneert de data die ingevoegd moet worden.
-     */
-    private static Object[] extractHitData(Hit hit, String ORFID) {
-        Hsp specs = hit.iterator().next();
-        Object[] data = {specs.getHspBitScore(), specs.getHspEvalue(), specs.getHspHseq(),
-            specs.getHspIdentity(), specs.getHspPositive(), specs.getHspGaps(), ORFIDs.get(ORFID), hit.getHitAccession()};
-        return data;
-    }
-
-    /**
      * Deze methode controleert of de header langer is dan 100 karakters en als
      * dit het geval is wordt deze header afkapt tot 100 karakters.
      *
@@ -210,7 +218,7 @@ public class Saver {
      */
     private static String genInsert(String table, String[] cols, Object[] data) {
         String query = INS + table + OPEN
-                + Arrays.toString(cols).replaceAll("\\[|\\]", "")
+                + Arrays.toString(cols).replaceAll(BRACKETPATTERN, "")
                 + CLOSE + VAL + OPEN;
         for (int i = 0; i < data.length; i++) {
             if (i != data.length - 1) {

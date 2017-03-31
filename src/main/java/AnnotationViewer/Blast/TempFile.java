@@ -14,12 +14,12 @@ import java.io.InputStreamReader;
 
 /**
  * Deze class kan gebruikt worden voor het maken van een tijdelijk bestand (in de Temp map).
- * @author RICK
+ * @author projectgroep 12
  */
 public class TempFile {
 
     //class variabele
-    private static final String SUFFIX = ".tmp";
+    private static final String SUFFIX = ".XML";
     private static int numb = 0;
 
     //instatie variabele
@@ -40,7 +40,6 @@ public class TempFile {
     }
    
     /**
-     * Deze methode retouneert het tijdelijk bestand.
      * @return Retouneert het tijdleijk bestand als File object.
      */
     public File getFile() {
@@ -67,7 +66,7 @@ public class TempFile {
 
     /**
      * Deze methode sluit alle streams af (inputStrea, writer en reader)
-     * @throws IOException Gooit een Excpetion als het tijdelijke bestand niet gevonden kan worden.
+     * @throws IOException Gooit een Excpetion als een van de streams niet bereikt kan worden.
      */
     public void closeStreams()throws IOException {
         writer.close();
