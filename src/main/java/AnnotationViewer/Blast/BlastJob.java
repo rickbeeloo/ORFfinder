@@ -17,7 +17,6 @@ import java.util.Objects;
  * is verstuurd naar de NCBI server.
  *
  * @author projectogroep 12
- *
  */
 public class BlastJob {
 
