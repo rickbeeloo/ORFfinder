@@ -64,7 +64,6 @@ public class BlastJobManager {
      * gaan in de webbrowser.
      */
     private static void setListener() {
-        outputTable.removeMouseListener(outputTable.getMouseListeners()[0]); //verwijder oude listener
         outputTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
