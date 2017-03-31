@@ -1,7 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Datum laatste update: 31-03-17
+Projectgroep 12: Enrico Schmitz, Thomas Reinders en Rick Beeloo
+Functionaliteit: De gebruiker kan een FASTA bestand inladen. In de sequentie
+			     kunnen vervolgens ORF's gezocht worden die verder geannoteerd 
+			     kunnen worden door gebruikt te maken van een BLAST search.
+Bekende bugs:    Als de gebruiker het tijdelijke BLAST bestand verwijderd zal de
+                 data niet opgeslagen kunnen worden in de database.
+
  */
 package AnnotationViewer.Blast;
 
@@ -10,6 +15,7 @@ import AnnotationViewer.GUI.ActionHandler;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -18,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.CaretListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -75,6 +82,17 @@ public class BlastJobManager {
         });
     }
 
+    /**
+     * Deze methode verwijderd de vorige mouseListeners van de tabel. Dus als de gebruiker
+     * opnieuw data inlaad wordt de vorige listener verwijerd.
+     */
+    private void removePreviousListener() {
+        for (MouseListener listener : outputTable.getMouseListeners()) {
+            outputTable.removeMouseListener(listener);
+        }
+    }
+    
+    
     /**
      * Deze methode opent de resultaat pagina in de webbrowser.
      *

@@ -1,16 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Datum laatste update: 31-03-17
+Projectgroep 12: Enrico Schmitz, Thomas Reinders en Rick Beeloo
+Functionaliteit: De gebruiker kan een FASTA bestand inladen. In de sequentie
+			     kunnen vervolgens ORF's gezocht worden die verder geannoteerd 
+			     kunnen worden door gebruikt te maken van een BLAST search.
+Bekende bugs:    Als de gebruiker het tijdelijke BLAST bestand verwijderd zal de
+                 data niet opgeslagen kunnen worden in de database.
+
  */
 package AnnotationViewer.GUI;
 
 import AnnotationViewer.Blast.BlastJobManager;
-import AnnotationViewer.DataStorage.LengthException;
 import java.awt.Color;
-import java.io.IOException;
-import java.util.NoSuchElementException;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -144,7 +145,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(headerLabel)
-                .addGap(153, 153, 153))
+                .addGap(165, 165, 165))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

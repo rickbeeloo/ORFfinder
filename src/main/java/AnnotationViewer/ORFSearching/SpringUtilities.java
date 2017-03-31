@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+DEZE CLASS IS NIET DOOR ONS GESCHREVEN, DEZE IS GEDWONLOAD VAN: https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/SpringGridProject/src/layout/SpringUtilities.java
  */
 package AnnotationViewer.ORFSearching;
 

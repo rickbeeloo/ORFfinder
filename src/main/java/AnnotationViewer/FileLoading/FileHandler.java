@@ -1,7 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Datum laatste update: 31-03-17
+Projectgroep 12: Enrico Schmitz, Thomas Reinders en Rick Beeloo
+Functionaliteit: De gebruiker kan een FASTA bestand inladen. In de sequentie
+			     kunnen vervolgens ORF's gezocht worden die verder geannoteerd 
+			     kunnen worden door gebruikt te maken van een BLAST search.
+Bekende bugs:    Als de gebruiker het tijdelijke BLAST bestand verwijderd zal de
+                 data niet opgeslagen kunnen worden in de database.
+
  */
 package AnnotationViewer.FileLoading;
 
@@ -10,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Deze class is verantwoordelijk voor het open, opslaan en sluit acties
@@ -43,28 +47,5 @@ public class FileHandler {
     public static void closeFile(BufferedReader reader) throws IOException {
             reader.close();
     }
-    
-    /**
-     * Deze methode opent een opent een save diaglog waarbij het bestand standaard 
-     * een naam krijgt op basis van het meegegeven String object.
-     * @param outputTitle Een String object met daarin de gewenste titel van het output bestand.
-     * @return een File object
-     * @throws IOException Gooit een exception als het geselcteerde bestand niet als output
-     * gebruikt kan worden.
-     */
-    public static File saveFile(String outputTitle) throws IOException {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-        chooser.setSelectedFile(new File(outputTitle));
-        chooser.setFileFilter(new FileNameExtensionFilter("text file", "txt"));
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            return chooser.getSelectedFile();
-        }
-        else {
-         throw new IOException(); //geen bestand geselecteerd.
-        }
-        
-    }
-         
     
 }
